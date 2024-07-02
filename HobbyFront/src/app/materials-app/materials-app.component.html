@@ -1,0 +1,196 @@
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+
+<!--********************   Навигация   *******************************-->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" style="color:white;">Материалы</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor02"
+        aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarColor02">
+        <ul class="navbar-nav mr-auto">
+            
+            <li class="nav-item active">
+                <a class="nav-link" (click)="onOpenModal(undefined, 'add')">Добавить материал <span
+                        class="sr-only">(current)</span></a>
+            </li> 
+        </ul>
+        <div class="nav_menu">
+            <ul> <h5>
+                <li><button routerLink="/hobbies">Домой</button></li> 
+                <li><button routerLink="/users">Пользователи</button></li> 
+                </h5>
+            </ul>
+        </div>
+        <form class="form-inline my-2 my-lg-0">
+
+            <input type="search" (ngModelChange)="searchMaterial(key.value)" #key="ngModel" ngModel name="key"
+                id="searchName" class="form-control mr-sm-2" placeholder="Поиск..." required>
+
+        </form>
+    </div>
+</nav>
+
+<!--********************   КОНТЕЙНЕР материалов   *******************************-->
+<div class="container mt-5 pt-4" id="material-container">
+    <div class="row">
+        <div *ngFor="let material of materials" class="col-lg-4 col-md-6 col-12 mt-4 pt-2">
+            <div class="card border-0 bg-light rounded shadow">
+                <div class="card-body p-4">
+                    <h5>HobbyID: {{material?.hobbyId}}</h5>
+                    <h5>MaterialID: {{material?.id}}</h5>
+                    <div class="mt-3">
+                        <span class="text-muted d-block">{{material?.materialName}}</span>
+                    </div>
+                    <div class="mt-3">
+                        <div class="float-right btn-group btn-group-sm">
+                            <a (click)="onOpenModal(material, 'edit')" class="btn btn-primary tooltips"
+                                data-placement="top" data-toggle="tooltip" data-original-title="Edit"><i
+                                    class="fa fa-pencil"></i> </a>
+                            <a (click)="onOpenModal(material, 'delete')" class="btn btn-secondary tooltips"
+                                data-placement="top" data-toggle="tooltip" data-original-title="Delete"><i
+                                    class="fa fa-times"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div><!--end col-->
+    </div><!--end row-->
+</div>
+
+<!--********************   ALERT   *******************************-->
+<div class="col-lg-12 d-flex align-items-center justify-content-center">
+    <div *ngIf="showAlert" class="alert alert-warning" role="alert" style="width: 15vw;">
+        <span>Материалы не обнаружены!</span>
+        <button type="button" class="close" aria-label="Close" (click)="closeAlert()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+</div>
+<!--********************   ФУТЕР   *******************************-->
+
+
+<div class="footer">
+    <div class="container">
+        <div class="row text-center">
+            <div class="col-lg-12 col-sm-12 col-xs-12">
+                <div class="footer_menu">
+                    <ul>
+                        <li><button routerLink="/hobbies">Домой</button></li> 
+                        <li><button routerLink="/users">Пользователи</button></li> 
+                    </ul>
+                </div>
+                <div class="footer_copyright">
+                    <p>© 2024 Sai. All Rights Reserved.</p>
+                </div>
+                <div class="footer_profile">
+                    <ul>
+                        <li><button routerLink="/hobbies"><i class="fa fa-home"></i></button></li> 
+                        <li><button routerLink="/users"><i class="fa fa-users"></i></button></li> 
+                    </ul>
+                </div>
+            </div><!--- END COL -->
+        </div><!--- END ROW -->
+    </div><!--- END CONTAINER -->
+</div>
+
+<!-- Add Hobby Modal -->
+<div class="modal fade" id="addMaterialModal" tabindex="-1" role="dialog" aria-labelledby="addMaterialModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addMaterialModalLabel">Добавить материал</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+                <form #addForm="ngForm" (ngSubmit)="onAddMaterial(addForm)">
+                    <div class="form-group">
+                        <label for="hobbyId">ID хобби</label>
+                        <input type="text" ngModel name="hobbyId" class="form-control" id="hobbyId" placeholder="ID хобби"
+                            required>
+                    </div>
+                    <div class="form-group">
+                        <label for="materialName">Наименование материала</label>
+                        <input type="text" ngModel name="materialName" class="form-control" id="materialName" placeholder="Материал"
+                            required>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" id="add-Material-form" class="btn btn-secondary"
+                            data-dismiss="modal">Закрыть</button>
+                        <button [disabled]="addForm.invalid" type="submit" class="btn btn-primary">Сохранить</button>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Edit Modal -->
+<div class="modal fade" id="updateMaterialModal" tabindex="-1" role="dialog" aria-labelledby="MaterialEditModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title" id="updateMaterialModalLabel">Редактировать материал {{editMaterial?.materialName}}</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div class="modal-body">
+
+                <form #editForm="ngForm">
+                    <div class="form-group">
+                        <label for="materialName">Наименование материала</label>
+                        <input type="text" ngModel="{{editMaterial?.materialName}}" name="materialName" class="form-control" id="materialName"
+                            aria-describedby="emailHelp" placeholder="Наименование...">
+                    </div>
+
+                    <input type="hidden" ngModel="{{editMaterial?.id}}" name="id" class="form-control" id="id"
+                        placeholder="id">
+                        
+                    <div class="modal-footer">
+                        <button type="button" id="" data-dismiss="modal" class="btn btn-secondary">Закрыть</button>
+                        <button (click)="onUpdateMaterial(editMaterial?.id, editForm.value)" data-dismiss="modal"
+                            class="btn btn-primary">Сохранить
+                        </button>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Delete Modal -->
+<div class="modal fade" id="deleteMaterialModal" tabindex="-1" role="dialog" aria-labelledby="deleteMaterialLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteModelLabel">Удалить материал</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <p>Вы уверены, что хотите удалить материал {{deleteMaterial?.materialName}}?</p>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Нет</button>
+                    <button (click)="onDeleteMaterial(deleteMaterial?.id)" class="btn btn-danger" data-dismiss="modal">Да
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<router-outlet></router-outlet>

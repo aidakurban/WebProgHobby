@@ -1,0 +1,228 @@
+@import 'https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css';
+@import 'https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css';
+
+body{margin-top:20px;}
+.shadow {
+    box-shadow: 0 0 3px rgb(53 64 78 / 20%) !important;
+}
+.rounded {
+    border-radius: 5px !important;
+}
+.bg-light {
+    background-color: #f7f8fa !important;
+}
+.bg-primary, .btn-primary, .btn-outline-primary:hover, .btn-outline-primary:focus, .btn-outline-primary:active, .btn-outline-primary.active, .btn-outline-primary.focus, .btn-outline-primary:not(:disabled):not(.disabled):active, .badge-primary, .nav-pills .nav-link.active, .pagination .active a, .custom-control-input:checked ~ .custom-control-label:before, #preloader #status .spinner > div, .social-icon li a:hover, .back-to-top:hover, .back-to-home a, ::selection, #topnav .navbar-toggle.open span:hover, .owl-theme .owl-dots .owl-dot.active span, .owl-theme .owl-dots.clickable .owl-dot:hover span, .watch-video a .play-icon-circle, .sidebar .widget .tagcloud > a:hover, .flatpickr-day.selected, .flatpickr-day.selected:hover, .tns-nav button.tns-nav-active, .form-check-input.form-check-input:checked {
+    background-color: #6dc77a !important;
+}
+
+.badge {
+    padding: 5px 8px;
+    border-radius: 3px;
+    letter-spacing: 0.5px;
+    font-size: 12px;
+}
+
+.btn-primary, .btn-outline-primary:hover, .btn-outline-primary:focus, .btn-outline-primary:active, .btn-outline-primary.active, .btn-outline-primary.focus, .btn-outline-primary:not(:disabled):not(.disabled):active {
+    box-shadow: 0 3px 7px rgb(109 199 122 / 50%) !important;
+}
+.btn-primary, .btn-outline-primary, .btn-outline-primary:hover, .btn-outline-primary:focus, .btn-outline-primary:active, .btn-outline-primary.active, .btn-outline-primary.focus, .btn-outline-primary:not(:disabled):not(.disabled):active, .bg-soft-primary .border, .alert-primary, .alert-outline-primary, .badge-outline-primary, .nav-pills .nav-link.active, .pagination .active a, .form-group .form-control:focus, .form-group .form-control.active, .custom-control-input:checked ~ .custom-control-label:before, .custom-control-input:focus ~ .custom-control-label::before, .form-control:focus, .social-icon li a:hover, #topnav .has-submenu.active.active .menu-arrow, #topnav.scroll .navigation-menu > li:hover > .menu-arrow, #topnav.scroll .navigation-menu > li.active > .menu-arrow, #topnav .navigation-menu > li:hover > .menu-arrow, .flatpickr-day.selected, .flatpickr-day.selected:hover, .form-check-input:focus, .form-check-input.form-check-input:checked, .container-filter li.active, .container-filter li:hover {
+    border-color: #6dc77a !important;
+}
+.bg-primary, .btn-primary, .btn-outline-primary:hover, .btn-outline-primary:focus, .btn-outline-primary:active, .btn-outline-primary.active, .btn-outline-primary.focus, .btn-outline-primary:not(:disabled):not(.disabled):active, .badge-primary, .nav-pills .nav-link.active, .pagination .active a, .custom-control-input:checked ~ .custom-control-label:before, #preloader #status .spinner > div, .social-icon li a:hover, .back-to-top:hover, .back-to-home a, ::selection, #topnav .navbar-toggle.open span:hover, .owl-theme .owl-dots .owl-dot.active span, .owl-theme .owl-dots.clickable .owl-dot:hover span, .watch-video a .play-icon-circle, .sidebar .widget .tagcloud > a:hover, .flatpickr-day.selected, .flatpickr-day.selected:hover, .tns-nav button.tns-nav-active, .form-check-input.form-check-input:checked {
+    background-color: #6dc77a !important;
+}
+.btn {
+    padding: 8px 20px;
+    outline: none;
+    text-decoration: none;
+    font-size: 16px;
+    letter-spacing: 0.5px;
+    transition: all 0.3s;
+    font-weight: 600;
+    border-radius: 5px;
+}
+.btn-primary {
+    background-color: #6dc77a !important;
+    border: 1px solid #6dc77a !important;
+    color: #fff !important;
+    box-shadow: 0 3px 7px rgb(109 199 122 / 50%);
+}
+
+a {
+text-decoration:none;    
+}
+/**********************      ФУТЕР      **************************************************/
+.footer {
+    background: #232a34;
+    padding-bottom: 50px;
+    padding-top: 3%;
+    margin-top: 5%;
+}
+
+.footer_menu {
+    margin-bottom: 20px;
+}
+
+.footer_menu ul {
+    list-style: none;
+    text-align: center;
+}
+
+.footer_menu ul li {
+    display: inline-block;
+}
+
+.footer_menu ul li a {
+    color: #fff;
+    padding: 0 10px;
+    -webkit-transition: 0.3s;
+    transition: 0.3s;
+}
+
+.footer_menu ul li a:hover {
+    color: #554c86;
+}
+
+/* Добавьте стили для кнопок в футере */
+.footer_menu ul li button {
+    background: transparent;
+    border: none;
+    color: #fff;
+    padding: 0 10px;
+    font-size: inherit;
+    cursor: pointer;
+    -webkit-transition: 0.3s;
+    transition: 0.3s;
+}
+
+.footer_menu ul li button:hover {
+    color: #554c86;
+}
+
+
+/*******************************************************************************************************************************/
+/*START FOOTER SOCIAL DESIGN*/
+.footer_profile {
+    margin-bottom: 40px;
+}
+
+.footer_profile ul {
+    list-style: outside none none;
+    margin: 0;
+    padding: 0
+}
+
+.footer_profile ul li {
+    display: inline-block;
+}
+
+@media only screen and (max-width:480px) {
+    .footer_profile ul li {
+        margin: 2px;
+    }
+}
+
+.footer_profile ul li a img {
+    width: 60px;
+}
+
+.footer_profile ul li a {
+    background: #554c86;
+    width: 40px;
+    height: 40px;
+    display: block;
+    text-align: center;
+    margin-right: 5px;
+    border-radius: 50%;
+    line-height: 40px;
+    box-sizing: border-box;
+    text-decoration: none;
+    -webkit-transition: .3s;
+    transition: .3s;
+    color: #fff;
+}
+
+/* Стили для кнопок с иконками в футере профайла */
+.footer_profile ul li button i {
+    font-size: 24px; /* Размер иконки */
+    color: #fff; /* Цвет иконки */
+}
+
+.footer_profile ul li button {
+    background: #554c86; /* Фон кнопки */
+    width: 40px; /* Ширина кнопки */
+    height: 40px; /* Высота кнопки */
+    display: flex; /* Установка отображения элементов в строку */
+    align-items: center; /* Выравнивание содержимого по центру по вертикали */
+    justify-content: center; /* Выравнивание содержимого по центру по горизонтали */
+    border: none; /* Убираем границы кнопки */
+    border-radius: 50%; /* Закругляем углы, чтобы создать круглую форму */
+    cursor: pointer; /* Устанавливаем курсор в виде указателя */
+    margin-right: 5px; /* Отступ между кнопками */
+    padding: 0; /* Убираем внутренние отступы кнопки */
+    -webkit-transition: .3s; /* Плавное изменение стилей при наведении */
+    transition: .3s;
+}
+
+.footer_profile ul li button:hover {
+    background: #776fac; /* Изменение фона кнопки при наведении */
+}
+
+.footer_copyright {
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    font-size: 12px;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    color: #fff;
+}
+
+/**********************      ALERT      **************************************************/
+.alert {
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid transparent;
+    border-radius: 4px;
+}
+
+.alert-warning {
+    color: #856404;
+    background-color: #fff3cd;
+    border-color: #ffeeba;
+}
+
+.alert {
+    display: flex;
+    align-items: center;
+}
+
+.alert .close {
+    margin-left: auto;
+    /* Это перемещает кнопку закрытия вправо */
+}
+
+/*************************** Навигация ***********************************************************/
+.nav_menu {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.nav_menu li {
+    display: inline;
+    margin-right: 10px; /* Расстояние между кнопками */
+}
+
+.nav_menu li button {
+    background: transparent;
+    border: none;
+    color: #fff;
+    padding: 0 10px;
+    font-size: inherit;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.nav_menu li button:hover {
+    color: #554c86;
+}

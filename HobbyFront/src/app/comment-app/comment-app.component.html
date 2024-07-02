@@ -1,0 +1,218 @@
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+
+<!--********************   Навигация   *******************************-->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" style="color:white;">Комментарии</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor02"
+        aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarColor02">
+        <ul class="navbar-nav mr-auto">
+            
+            <li class="nav-item active">
+                <a class="nav-link" (click)="onOpenModal(undefined, 'add')">Добавить комментарий <span
+                        class="sr-only">(current)</span></a>
+            </li> 
+            <!-- 1
+            <li class="nav-item active" *ngIf="loggedIn && currentRoute !== '/comments/user/:userId'">
+                <a class="nav-link" (click)="onOpenModal(undefined, 'add')">Добавить комментарий <span
+                        class="sr-only">(current)</span></a>
+            </li> -->
+        </ul>
+        <div class="nav_menu">
+            <ul> <h5>
+                <li><button routerLink="/hobbies">Домой</button></li> 
+                <li><button routerLink="/users">Пользователи</button></li> 
+                </h5>
+            </ul>
+        </div>
+        <form class="form-inline my-2 my-lg-0">
+
+            <input type="search" (ngModelChange)="searchComment(key.value)" #key="ngModel" ngModel name="key"
+                id="searchName" class="form-control mr-sm-2" placeholder="Поиск..." required>
+
+        </form>
+    </div>
+</nav>
+
+<!--********************   КОНТЕЙНЕР КОММЕНТАРИЕВ   *******************************-->
+<div class="container mt-5 pt-4" id="comment-container">
+    <div class="row">
+        <div *ngFor="let comment of comments" class="col-lg-4 col-md-6 col-12 mt-4 pt-2">
+            <div class="card border-0 bg-light rounded shadow">
+                <div class="card-body p-4">
+                    <span class="badge rounded-pill bg-primary float-right text-md-end mb-3 mb-sm-0">{{comment?.commentDateTime}}</span>
+                    <h5>UserID: {{comment?.userId}}</h5>
+                    <h5>HobbyID: {{comment?.hobbyId}}</h5>
+                    <h5>CommentID: {{comment?.id}}</h5>
+                    <!--
+                    <div *ngIf="username">
+                        <p>Username: {{ username }}</p>
+                      </div>
+                      -->
+                    <div class="mt-3">
+                        <span class="text-muted d-block">{{comment?.commentText}}</span>
+                    </div>
+                    <div class="mt-3">
+                        <div class="float-right btn-group btn-group-sm">
+                            <a (click)="onOpenModal(comment, 'edit')" class="btn btn-primary tooltips"
+                                data-placement="top" data-toggle="tooltip" data-original-title="Edit"><i
+                                    class="fa fa-pencil"></i> </a>
+                            <a (click)="onOpenModal(comment, 'delete')" class="btn btn-secondary tooltips"
+                                data-placement="top" data-toggle="tooltip" data-original-title="Delete"><i
+                                    class="fa fa-times"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div><!--end col-->
+    </div><!--end row-->
+</div>
+
+<!--********************   ALERT   *******************************-->
+<div class="col-lg-12 d-flex align-items-center justify-content-center">
+    <div *ngIf="showAlert" class="alert alert-warning" role="alert" style="width: 15vw;">
+        <span>Комментарии не обнаружены!</span>
+        <button type="button" class="close" aria-label="Close" (click)="closeAlert()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+</div>
+<!--********************   ФУТЕР   *******************************-->
+
+
+<div class="footer">
+    <div class="container">
+        <div class="row text-center">
+            <div class="col-lg-12 col-sm-12 col-xs-12">
+                <div class="footer_menu">
+                    <ul>
+                        <li><button routerLink="/hobbies">Домой</button></li> 
+                        <li><button routerLink="/users">Пользователи</button></li> 
+                    </ul>
+                </div>
+                <div class="footer_copyright">
+                    <p>© 2024 Sai. All Rights Reserved.</p>
+                </div>
+                <div class="footer_profile">
+                    <ul>
+                        <li><button routerLink="/hobbies"><i class="fa fa-home"></i></button></li> 
+                        <li><button routerLink="/users"><i class="fa fa-users"></i></button></li> 
+                    </ul>
+                </div>
+            </div><!--- END COL -->
+        </div><!--- END ROW -->
+    </div><!--- END CONTAINER -->
+</div>
+
+<!-- Add Hobby Modal -->
+<div class="modal fade" id="addCommentModal" tabindex="-1" role="dialog" aria-labelledby="addCommentModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addCommentModalLabel">Добавить комментарий</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+                <form #addForm="ngForm" (ngSubmit)="onAddComment(addForm)">
+
+                    <div class="form-group">
+                        <label for="userId">ID пользователя</label>
+                        <input type="text" ngModel name="userId" class="form-control" id="userId" placeholder="ID пользователя"
+                            required>
+                    </div>
+                    <div class="form-group">
+                        <label for="hobbyId">ID хобби</label>
+                        <input type="text" ngModel name="hobbyId" class="form-control" id="hobbyId" placeholder="ID хобби"
+                            required>
+                    </div>
+                    <div class="form-group">
+                        <label for="commentText">Комментарий</label>
+                        <input type="text" ngModel name="commentText" class="form-control" id="commentText" placeholder="Ваш комментарий"
+                            required>
+                    </div>
+                    <!--
+                    <input type="hidden" ngModel="{{addComment?.id}}" name="id" class="form-control" id="id"
+                        placeholder="id">
+                        -->
+                    <div class="modal-footer">
+                        <button type="button" id="add-Hobby-form" class="btn btn-secondary"
+                            data-dismiss="modal">Закрыть</button>
+                        <button [disabled]="addForm.invalid" type="submit" class="btn btn-primary">Сохранить</button>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Edit Modal -->
+<div class="modal fade" id="updateCommentModal" tabindex="-1" role="dialog" aria-labelledby="CommentEditModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title" id="updateCommentModalLabel">Редактировать комментарий {{editComment?.commentText}}</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div class="modal-body">
+
+                <form #editForm="ngForm">
+                    <div class="form-group">
+                        <label for="commentText">Комментарий</label>
+                        <input type="text" ngModel="{{editComment?.commentText}}" name="commentText" class="form-control" id="commentText"
+                            aria-describedby="emailHelp" placeholder="Ваш комментарий">
+                    </div>
+
+                    <input type="hidden" ngModel="{{editComment?.id}}" name="id" class="form-control" id="id"
+                        placeholder="id">
+                        
+                    <div class="modal-footer">
+                        <button type="button" id="" data-dismiss="modal" class="btn btn-secondary">Закрыть</button>
+                        <button (click)="onUpdateComment(editComment?.id, editForm.value)" data-dismiss="modal"
+                            class="btn btn-primary">Сохранить
+                        </button>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Delete Modal -->
+<div class="modal fade" id="deleteCommentModal" tabindex="-1" role="dialog" aria-labelledby="deleteModelLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteModelLabel">Удалить комментарий</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <p>Вы уверены, что хотите удалить комментарий {{deleteComment?.commentText}}?</p>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Нет</button>
+                    <button (click)="onDeleteComment(deleteComment?.id)" class="btn btn-danger" data-dismiss="modal">Да
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<router-outlet></router-outlet>

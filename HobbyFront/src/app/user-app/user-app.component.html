@@ -1,0 +1,239 @@
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+
+<!--********************   Навигация   *******************************-->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" style="color:white;">Редактор пользователей</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor02"
+        aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarColor02">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" (click)="onOpenModal(undefined, 'add')">Добавить пользователя <span
+                        class="sr-only">(current)</span></a>
+            </li>
+
+        </ul>
+        
+        <div class="nav_menu">
+            <ul> <h5>
+                <li><button routerLink="/hobbies">Домой</button></li> 
+                <li><button routerLink="/users">Пользователи</button></li> 
+                </h5>
+            </ul>
+        </div>
+
+        <form class="form-inline my-2 my-lg-0">
+
+            <input type="search" (ngModelChange)="searchUser(key.value)" #key="ngModel" ngModel name="key"
+                id="searchName" class="form-control mr-sm-2" placeholder="Поиск..." required>
+
+        </form>
+    </div>
+</nav>
+
+<!--********************   КОНТЕЙНЕР Юзеров  *******************************-->
+<div class="container mt-5 pt-4" id="user-container">
+    <div class="row">
+        <div *ngFor="let user of users" class="col-lg-4 col-md-6 col-12 mt-4 pt-2">
+            <div class="card border-0 bg-light rounded shadow">
+                <div class="card-body p-4">
+                    <h5>{{user?.username}}</h5>
+                    <h5>User ID: {{user?.id}}</h5>
+                    <div class="mt-3">
+                        <span class="text-muted d-block"><i class="fa fa-user" aria-hidden="true"></i>
+                            {{user?.fullName}}</span>
+                    </div>
+                    <div class="mt-3">
+                            
+                            <button (click)="goToPlannedHobbies(user.id)" class="btn btn-primary">
+                                <i class="fa fa-check-square-o" aria-hidden="true"></i> Запланировано
+                            </button> 
+                        <div class="float-right btn-group btn-group-sm">
+                            <a (click)="onOpenModal(user, 'edit')" class="btn btn-primary tooltips"
+                                data-placement="top" data-toggle="tooltip" data-original-title="Edit"><i
+                                    class="fa fa-pencil"></i> </a>
+                            <a (click)="onOpenModal(user, 'delete')" class="btn btn-secondary tooltips"
+                                data-placement="top" data-toggle="tooltip" data-original-title="Delete"><i
+                                    class="fa fa-times"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div><!--end col-->
+    </div><!--end row-->
+</div>
+
+
+<!--********************   ALERT   *******************************-->
+<div class="col-lg-12 d-flex align-items-center justify-content-center">
+    <div *ngIf="showAlert" class="alert alert-warning" role="alert" style="width: 15vw;">
+        <span>Пользователи не найдены!</span>
+        <button type="button" class="close" aria-label="Close" (click)="closeAlert()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+</div>
+<!--********************   ФУТЕР   *******************************-->
+<div class="footer">
+    <div class="container">
+        <div class="row text-center">
+            <div class="col-lg-12 col-sm-12 col-xs-12">
+                <div class="footer_menu">
+                    <ul>
+                        <li><button routerLink="/hobbies">Домой</button></li> 
+                        <li><button routerLink="/users">Пользователи</button></li> 
+                    </ul>
+                </div>
+                <div class="footer_copyright">
+                    <p>© 2024 Sai. All Rights Reserved.</p>
+                </div>
+                <div class="footer_profile">
+                    <ul>
+                        <li><button routerLink="/hobbies"><i class="fa fa-home"></i></button></li> 
+                        <li><button routerLink="/users"><i class="fa fa-users"></i></button></li> 
+                    </ul>
+                </div>
+            </div><!--- END COL -->
+        </div><!--- END ROW -->
+    </div><!--- END CONTAINER -->
+</div>
+
+<!-- Add User Modal -->
+<div class="modal fade" id="addUserModal" tabindex="-1" role="dialog" aria-labelledby="addUserModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addUserModalLabel">Добавить пользователя</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+                <form #addForm="ngForm" (ngSubmit)="onAddUser(addForm)">
+                    <div class="form-group">
+                        <label for="fullname">ФИО</label>
+                        <input type="text" ngModel name="fullName" class="form-control" id="fullName" placeholder="Ваши ФИО"
+                            required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Почта</label>
+                        <input type="email" ngModel name="email" class="form-control" id="email"
+                            placeholder="Ваша почта" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="username">Логин</label>
+                        <input type="text" ngModel name="username" class="form-control" id="username"
+                            placeholder="Ваш логин" required>
+                    </div>                    
+                    <div class="form-group">
+                        <label for="password">Пароль</label>
+                        <input type="text" ngModel name="password" class="form-control" id="password"
+                            placeholder="Ваш пароль" required>
+                    </div>
+
+                    <input type="hidden" ngModel="USER" name="role" class="form-control" id="role"
+                        placeholder="USER">
+
+                    <div class="modal-footer">
+                        <button type="button" id="add-User-form" class="btn btn-secondary"
+                            data-dismiss="modal">Закрыть</button>
+                        <button [disabled]="addForm.invalid" type="submit" class="btn btn-primary">Сохранить</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- Edit Modal -->
+<div class="modal fade" id="updateUserModal" tabindex="-1" role="dialog" aria-labelledby="UserEditModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title" id="updateUserModalLabel">Редактировать пользователя {{editUser?.username}}</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div class="modal-body">
+
+                <form #editForm="ngForm">
+                    <div class="form-group">
+                        <label for="fullname">ФИО</label>
+                        <input type="text" ngModel="{{editUser?.fullName}}" name="fullName" class="form-control" id="fullName"
+                            aria-describedby="emailHelp" placeholder="Новые ФИО">
+                    </div>
+
+                    <input type="hidden" ngModel="{{editUser?.id}}" name="id" class="form-control" id="id"
+                        placeholder="id">
+
+                    <div class="form-group">
+                        <label for="email">Почта</label>
+                        <input type="email" ngModel="{{editUser?.email}}" name="email" class="form-control"
+                            id="email" placeholder="Ваша новая почта">
+                    </div>
+                    <div class="form-group">
+                        <label for="username">Логин</label>
+                        <input type="text" ngModel="{{editUser?.username}}" name="username" class="form-control"
+                            id="username" placeholder="Ваш новый логин">
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Пароль</label>
+                        
+                        <input type="text" ngModel name="password" class="form-control"
+                            id="password" placeholder="Ваш новый пароль" required>
+                            
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" id="" data-dismiss="modal" class="btn btn-secondary">Закрыть</button>
+                        <button (click)="onUpdateUser(editUser?.id, editForm.value)" data-dismiss="modal"
+                            class="btn btn-primary">Сохранить
+                        </button>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Delete Modal -->
+<div class="modal fade" id="deleteUserModal" tabindex="-1" role="dialog" aria-labelledby="deleteModelLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteModelLabel">Удалить аккаунт пользователя</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <p>Вы уверены, что хотите удалить пользователя {{deleteUser?.username}}?</p>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Нет</button>
+                    <button (click)="onDeleteUser(deleteUser?.id)" class="btn btn-danger" data-dismiss="modal">Да
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+
+
+
+<router-outlet></router-outlet>
